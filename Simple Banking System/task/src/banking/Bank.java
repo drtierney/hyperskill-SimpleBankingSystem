@@ -36,8 +36,10 @@ public class Bank {
         System.out.println("Enter your PIN:");
         int pin = Integer.parseInt(scanner.nextLine());
 
+        boolean isValidCheckSum = confirmCheckSum(cardNumber);
         Account account = accounts.get(cardNumber);
-        if (account == null || account.getPin() != pin){
+
+        if (!isValidCheckSum || account == null || account.getPin() != pin){
             System.out.println("Wrong card number or PIN!");
             return false;
         }
@@ -45,6 +47,10 @@ public class Bank {
         System.out.println("You have successfully logged in!");
         currentAccount = account;
         return true;
+    }
+
+    private boolean confirmCheckSum(String cardNumber) {
+        return Account.getLuhnAlgorithmSum(cardNumber) % 10 == 0;
     }
 
     public void printBalance() {
