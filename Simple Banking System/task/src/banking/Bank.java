@@ -23,7 +23,7 @@ public class Bank {
 
     public void createAccount() {
         Account account = Account.createNewAccount();
-        accounts.put(account.getCardNumber(), account);
+        Database.saveAccount(account);
         System.out.println("Your card has been created");
         System.out.printf("Your card number:\n%s\n", account.getCardNumber());
         System.out.printf("Your card PIN:\n%s\n", account.getPin());
@@ -37,7 +37,7 @@ public class Bank {
         int pin = Integer.parseInt(scanner.nextLine());
 
         boolean isValidCheckSum = confirmCheckSum(cardNumber);
-        Account account = accounts.get(cardNumber);
+        Account account = Database.loadAccount(cardNumber, pin);
 
         if (!isValidCheckSum || account == null || account.getPin() != pin){
             System.out.println("Wrong card number or PIN!");
